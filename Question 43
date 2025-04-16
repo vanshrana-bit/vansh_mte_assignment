@@ -1,0 +1,90 @@
+🔢 43. Solve the Problem of Finding the Top K Frequent Elements in an Array
+✅ Problem Statement
+Given an array of integers, the task is to find the K most frequent elements in the array.
+
+🧠 Algorithm
+Key Idea:
+Frequency Count: First, count the frequency of each element in the array using a hash map.
+Priority Queue (Max-Heap or Min-Heap): Use a priority queue (min-heap in this case) to efficiently store and retrieve the K most frequent elements. The heap ensures that we can maintain the K elements with the highest frequency while removing elements with lower frequency.
+Steps:
+Count Frequencies: Traverse the array and count the frequency of each element using a hash map (or dictionary).
+Use a Heap: Use a min-heap to store the elements and their frequencies. The heap will allow us to efficiently keep track of the K most frequent elements.
+If the heap size exceeds K, remove the element with the lowest frequency.
+Return the Top K Elements: After processing all elements, the heap will contain the K most frequent elements.
+Algorithm:
+Count the frequencies of elements in the array using a hash map.
+Create a min-heap and insert elements along with their frequencies into the heap.
+The heap will store elements in the order of their frequencies, maintaining the top K frequent elements.
+Remove elements from the heap when the size exceeds K, keeping only the most frequent ones.
+Return the top K elements.
+💻 Java Program
+import java.util.*;
+
+public class TopKFrequentElements {
+    public static List<Integer> topKFrequent(int[] nums, int k) {
+        // Step 1: Count the frequency of each element
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (int num : nums) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        // Step 2: Create a min-heap based on frequency
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap = 
+            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+        // Step 3: Add entries to the heap
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            minHeap.offer(entry);
+            if (minHeap.size() > k) {
+                minHeap.poll();  // Remove the element with the smallest frequency
+            }
+        }
+
+        // Step 4: Extract top K frequent elements
+        List<Integer> result = new ArrayList<>();
+        while (!minHeap.isEmpty()) {
+            result.add(minHeap.poll().getKey());
+        }
+
+        Collections.reverse(result);  // Reverse the result to get elements in decreasing order of frequency
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1, 2, 2, 3};
+        int k = 2;
+        System.out.println("Top " + k + " frequent elements: " + topKFrequent(nums, k));
+    }
+}
+🧪 Example
+Input:
+nums = [1, 1, 1, 2, 2, 3]
+k = 2
+Output:
+Top 2 frequent elements: [1, 2]
+Explanation:
+The frequency of each element is:
+1: 3
+2: 2
+3: 1
+The top 2 most frequent elements are 1 and 2.
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n log k)
+Space Complexity	O(n)
+Explanation:
+Time Complexity:
+
+Counting the frequencies takes O(n), where n is the number of elements in the array.
+Inserting elements into the heap takes O(log k) for each of the n elements, so the overall time complexity is O(n log k).
+Space Complexity:
+
+We use a hash map to store the frequency of each element, which takes O(n) space.
+The priority queue (min-heap) stores at most k elements, so its space complexity is O(k).
+Therefore, the total space complexity is O(n).
+📌 Summary
+In this problem, the goal is to find the K most frequent elements in an array. This is efficiently achieved using a hash map to count the frequencies of elements and a min-heap to maintain the K most frequent elements.
+
+The algorithm runs in O(n log k) time, which is optimal for this problem, and requires O(n) space to store the frequencies and the heap.
+
+This approach efficiently solves the problem and handles large arrays well, as it keeps the computation minimal for finding the top K frequent elements.
