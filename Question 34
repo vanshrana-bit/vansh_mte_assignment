@@ -1,0 +1,45 @@
+34. Solve the problem of finding the subarray sum equal to K using hashing. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans. import java.util.*;
+
+public class SubarraySumEqualsK {
+    public static int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);  // To handle sum from index 0
+        int count = 0, sum = 0;
+
+        for (int num : nums) {
+            sum += num;
+
+            if (map.containsKey(sum - k)) {
+                count += map.get(sum - k);
+            }
+
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3};
+        int k = 3;
+        int result = subarraySum(nums, k);
+        System.out.println("Number of subarrays with sum " + k + ": " + result);  // Output: 2
+    }
+}
+
+🔧 Algorithm
+  -Initialize:
+    Map<Integer, Integer> map to store frequency of prefix sums
+    map.put(0, 1) to handle subarrays starting from index 0
+    count = 0, sum = 0
+
+  -Loop through array:
+    Add current element to sum
+    If sum - K exists in map, add its count to result
+    Add or update sum in the map
+
+📊 Time and Space Complexity
+Complexity	Value
+Time	      O(n)
+Space	      O(n)
