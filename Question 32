@@ -1,0 +1,50 @@
+32. How to find the largest rectangle that can be formed in a histogram. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans. import java.util.*;
+
+public class LargestRectangleHistogram {
+    public static int largestRectangleArea(int[] heights) {
+        Stack<Integer> stack = new Stack<>();
+        int maxArea = 0;
+        int n = heights.length;
+        
+        for (int i = 0; i <= n; i++) {
+            int h = (i == n) ? 0 : heights[i]; // Add sentinel 0 at the end
+            while (!stack.isEmpty() && h < heights[stack.peek()]) {
+                int height = heights[stack.pop()];
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+            stack.push(i);
+        }
+
+        return maxArea;
+    }
+
+    public static void main(String[] args) {
+        int[] heights = {2, 1, 5, 6, 2, 3};
+        int result = largestRectangleArea(heights);
+        System.out.println("Largest Rectangle Area: " + result); // Output: 10
+    }
+}
+
+🔧 Algorithm
+Iterate through the histogram:
+
+While the current bar is less than the bar at the top of the stack:
+
+Pop from stack, calculate area considering the popped height as the smallest bar.
+
+Width = i - stack.peek() - 1 (or i if the stack is empty).
+
+Push the current index to the stack.
+
+After iteration, process any remaining bars in the stack similarly.
+
+Keep track of the maximum area found.
+
+📊 Time and Space Complexity
+Time Complexity: O(n)
+Each bar is pushed and popped at most once.
+
+Space Complexity: O(n)
+Stack may hold up to n elements in worst case
