@@ -1,0 +1,90 @@
+🔎 50. Explain the Concept of Equilibrium Index and Its Applications in Array Problems
+✅ Problem Statement: Equilibrium Index
+The equilibrium index of an array is the index i such that the sum of elements on the left of i is equal to the sum of elements on the right of i. In other words, it is the index where the sum of all the elements before it is equal to the sum of all the elements after it.
+
+Example:
+Consider an array arr = [-7, 1, 5, 2, 3, 4, -5]. The equilibrium index of this array is 3 because:
+
+The sum of elements to the left of index 3 (-7 + 1 + 5) is -1.
+The sum of elements to the right of index 3 (2 + 3 + 4 + -5) is also -1.
+Therefore, index 3 is an equilibrium index.
+
+🧠 Algorithm to Find Equilibrium Index
+Steps:
+Step 1: Compute the total sum of all elements in the array.
+Step 2: Initialize a variable left_sum = 0. This variable will keep track of the sum of elements to the left of the current index i.
+Step 3: For each element arr[i], check if the sum of the elements to the left is equal to the sum of elements to the right. The sum to the right of the current index is calculated as total_sum - left_sum - arr[i].
+Step 4: If the left sum equals the right sum, then i is an equilibrium index. Otherwise, update left_sum by adding arr[i] to it and move to the next element.
+Formula:
+At any index i, the equilibrium condition is:
+
+left_sum = total_sum - left_sum - arr[i]
+Where:
+
+left_sum is the sum of elements to the left of index i.
+total_sum is the sum of all elements in the array.
+arr[i] is the element at index i.
+💻 Java Program to Find the Equilibrium Index
+public class EquilibriumIndex {
+    public static int findEquilibriumIndex(int[] arr) {
+        int total_sum = 0;
+        int left_sum = 0;
+        
+        // Step 1: Calculate the total sum of the array
+        for (int num : arr) {
+            total_sum += num;
+        }
+        
+        // Step 2: Traverse the array and find the equilibrium index
+        for (int i = 0; i < arr.length; i++) {
+            total_sum -= arr[i];  // Subtract the current element from total sum
+            
+            // Step 3: Check if left sum equals right sum
+            if (left_sum == total_sum) {
+                return i;  // Equilibrium index found
+            }
+            
+            // Update left_sum for the next iteration
+            left_sum += arr[i];
+        }
+        
+        // No equilibrium index found
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {-7, 1, 5, 2, 3, 4, -5};
+        int equilibriumIndex = findEquilibriumIndex(arr);
+        System.out.println("Equilibrium Index: " + (equilibriumIndex == -1 ? "None" : equilibriumIndex));
+    }
+}
+🧪 Example
+Input:
+arr = [-7, 1, 5, 2, 3, 4, -5]
+Output:
+Equilibrium Index: 3
+Explanation:
+At index 3, the sum of elements to the left is -7 + 1 + 5 = -1.
+The sum of elements to the right is 2 + 3 + 4 - 5 = -1.
+Therefore, index 3 is the equilibrium index.
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n)
+Space Complexity	O(1)
+Explanation:
+Time Complexity:
+
+The program computes the total sum of the array in O(n) time and then performs a single pass through the array to find the equilibrium index, which also takes O(n) time.
+Therefore, the overall time complexity is O(n), where n is the length of the array.
+Space Complexity:
+
+The program uses a constant amount of extra space, storing only the total_sum and left_sum variables.
+Therefore, the space complexity is O(1), i.e., constant space.
+📌 Applications of Equilibrium Index
+Balancing Loads: In distributed systems, finding an equilibrium point helps in balancing workloads across different servers or processors.
+Financial Analysis: The concept of equilibrium can be applied in economics and finance to determine the point where profits and losses balance.
+Data Partitioning: The equilibrium index can be used in algorithms that divide data into two balanced partitions, useful in divide-and-conquer approaches.
+Game Theory: In certain game-theoretic problems, an equilibrium index can represent a point where opposing forces are balanced.
+💡 Key Takeaways:
+Efficiency: The algorithm is optimal with O(n) time complexity and O(1) space complexity.
+Applications: The concept is applied in load balancing, financial equilibrium, and partitioning problems in algorithms and game theory.
