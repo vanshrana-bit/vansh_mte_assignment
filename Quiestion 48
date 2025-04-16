@@ -1,0 +1,98 @@
+🔎 48. Solve the Problem of Finding the Next Permutation of a Given Array
+✅ Problem Statement
+Given an array of numbers, find the next lexicographically greater permutation of the array of integers. If no such permutation exists (i.e., the array is sorted in descending order), return the smallest permutation (sorted in ascending order).
+
+Example:
+For example, if the input array is [1, 2, 3], the next permutation would be [1, 3, 2].
+
+🧠 Algorithm
+Key Idea:
+Find the longest non-increasing suffix: The idea is to find the first pair of consecutive elements (i, i+1) such that nums[i] < nums[i+1]. This indicates that we can generate a larger permutation by swapping elements after index i.
+Find the smallest element larger than nums[i]: Once the longest non-increasing suffix is found, the next step is to swap nums[i] with the smallest element in the suffix that is larger than nums[i].
+Reverse the suffix: After the swap, the sequence from i+1 to the end should be reversed to get the smallest lexicographical order.
+Steps:
+Step 1: Find the largest index i such that nums[i] < nums[i+1]. If no such index exists, the array is in the highest possible permutation, so we reverse it to get the smallest permutation.
+Step 2: Find the largest index j greater than i such that nums[i] < nums[j].
+Step 3: Swap the values of nums[i] and nums[j].
+Step 4: Reverse the subarray nums[i+1:] to get the smallest lexicographical order.
+Algorithm:
+Start from the end of the array and find the first pair of elements (i, i+1) such that nums[i] < nums[i+1].
+If no such pair is found, reverse the entire array and return.
+Otherwise, find the smallest element in the suffix (after i) that is larger than nums[i], and swap them.
+Reverse the suffix starting from i+1.
+💻 Java Program
+import java.util.Arrays;
+
+public class NextPermutation {
+    public static void nextPermutation(int[] nums) {
+        int n = nums.length;
+        
+        // Step 1: Find the largest index i such that nums[i] < nums[i+1]
+        int i = n - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        
+        // If no such index exists, reverse the entire array
+        if (i >= 0) {
+            // Step 2: Find the largest index j such that nums[i] < nums[j]
+            int j = n - 1;
+            while (nums[j] <= nums[i]) {
+                j--;
+            }
+            // Step 3: Swap nums[i] and nums[j]
+            swap(nums, i, j);
+        }
+        
+        // Step 4: Reverse the subarray nums[i+1:]
+        reverse(nums, i + 1, n - 1);
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    private static void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums, i++, j--);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3};
+        nextPermutation(nums);
+        System.out.println("Next Permutation: " + Arrays.toString(nums));
+    }
+}
+🧪 Example
+Input:
+nums = [1, 2, 3]
+Output:
+Next Permutation: [1, 3, 2]
+Explanation:
+In this example, the next lexicographically greater permutation of [1, 2, 3] is [1, 3, 2].
+For the input [3, 2, 1], the array is already in descending order, so the next permutation would be the smallest permutation: [1, 2, 3].
+
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n)
+Space Complexity	O(1)
+Explanation:
+Time Complexity:
+
+Step 1: Finding the index i where nums[i] < nums[i+1] takes O(n) time.
+Step 2: Finding the index j such that nums[i] < nums[j] takes O(n) time.
+Step 3: Swapping elements takes O(1) time.
+Step 4: Reversing the suffix takes O(n) time.
+Therefore, the overall time complexity is O(n), where n is the length of the array.
+Space Complexity:
+
+We only use a constant amount of extra space for the swapping and reversing operations. Therefore, the space complexity is O(1).
+📌 Summary
+The next permutation problem is a common problem in algorithm design, where the goal is to find the next lexicographically greater permutation of an array. The algorithm involves finding the largest index where the array is not in descending order, swapping elements, and reversing a portion of the array to get the smallest lexicographical order.
+
+Key Takeaways:
+Efficiency: The algorithm runs in O(n) time and uses O(1) space.
+Application: This problem is widely used in generating permutations in lexicographical order, useful in combinatorial problems and backtracking algorithms.
