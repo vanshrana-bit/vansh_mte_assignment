@@ -1,0 +1,85 @@
+🔢 44. How to Find Two Numbers in an Array That Add Up to a Target Using Hashing
+✅ Problem Statement
+Given an array of integers and a target sum, the task is to find two numbers in the array whose sum equals the target. You need to return the indices of the two numbers. We can solve this efficiently using a hashing technique, which allows us to check if the complement of a number (target - current number) exists in the array.
+
+🧠 Algorithm
+Key Idea:
+The idea is to use a hash map (or dictionary) to store elements while iterating through the array. For each element, check if the complement (i.e., target - element) exists in the hash map:
+
+If it exists: The two numbers that add up to the target are found.
+If it doesn’t exist: Store the current element in the hash map and move to the next element.
+Steps:
+Initialize a hash map: The hash map will store the elements we've already visited.
+Iterate through the array:
+For each element, calculate its complement (target - current element).
+Check if the complement exists in the hash map.
+If found, return the indices of the current element and the complement.
+If not found, add the current element to the hash map and continue.
+If no pair is found after iterating through the array, return that no such pair exists.
+Algorithm:
+Initialize an empty hash map to store elements and their indices.
+For each element in the array, calculate the complement (target - element).
+If the complement is found in the hash map, return the current index and the index of the complement.
+If the complement is not found, store the current element and its index in the hash map.
+If no pair is found by the end of the loop, return "No pair found".
+💻 Java Program
+import java.util.*;
+
+public class TwoSumUsingHashing {
+    public static int[] twoSum(int[] nums, int target) {
+        // Step 1: Create a hash map to store the numbers and their indices
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        // Step 2: Iterate through the array
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            
+            // Step 3: Check if the complement is already in the map
+            if (map.containsKey(complement)) {
+                // If found, return the indices
+                return new int[]{map.get(complement), i};
+            }
+            
+            // Step 4: Store the current element and its index in the map
+            map.put(nums[i], i);
+        }
+        
+        // If no pair found, return an empty array or null
+        return new int[]{};
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {2, 7, 11, 15};
+        int target = 9;
+        int[] result = twoSum(nums, target);
+        
+        if (result.length > 0) {
+            System.out.println("Indices: [" + result[0] + ", " + result[1] + "]");
+        } else {
+            System.out.println("No pair found.");
+        }
+    }
+}
+🧪 Example
+Input:
+nums = [2, 7, 11, 15]
+target = 9
+Output:
+Indices: [0, 1]
+Explanation:
+The numbers 2 and 7 add up to the target 9. Their indices are 0 and 1, so the output is [0, 1].
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n)
+Space Complexity	O(n)
+Explanation:
+Time Complexity:
+
+We iterate over the array once, checking if the complement exists in the hash map. The lookup and insertion operations on a hash map are O(1) on average, so the overall time complexity is O(n), where n is the number of elements in the array.
+Space Complexity:
+
+We use a hash map to store elements, which in the worst case (when no solution is found) will store all n elements. Therefore, the space complexity is O(n).
+📌 Summary
+The problem of finding two numbers in an array that add up to a target can be efficiently solved using hashing. By maintaining a hash map that stores the elements we've already visited, we can check in constant time if the complement of the current element exists. This approach allows us to solve the problem in linear time (O(n)) with linear space (O(n)).
+
+This is a much more efficient solution compared to the naive O(n^2) approach, which checks all pairs in the array.
