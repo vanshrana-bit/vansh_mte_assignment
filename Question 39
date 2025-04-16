@@ -1,0 +1,8 @@
+39. Explain the difference between subsets and permutations with examples.
+Ans. 🧩 1. Subsets vs Permutations:
+            Feature	              Subsets	                                              Permutations
+            Definition	          Any combination of elements (order doesn't matter)	  Arrangements of elements (order matters)
+            Order	                 Not important	                                      Important
+            Duplicates allowed?	  No duplicates in final result	                        All unique arrangements
+            Length of results	    Varying lengths (0 to n)	                            Fixed length (n for n elements)
+            Total count	          2^n subsets for n elements	                          n! permutations for n elements
