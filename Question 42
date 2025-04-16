@@ -1,0 +1,78 @@
+✅ Problem Statement
+Dynamic programming (DP) is a technique for solving optimization problems by breaking them down into simpler subproblems. The solution to the maximum subarray problem can be efficiently solved using DP by keeping track of the best possible sum up to each index in the array. In this solution, we aim to explain the concept of dynamic programming and its application to solving the maximum subarray problem.
+
+🧠 Dynamic Programming (DP) Concept
+What is Dynamic Programming?
+Dynamic programming is a method used to solve problems by:
+
+Breaking down a problem into smaller overlapping subproblems.
+Storing the results of subproblems to avoid redundant computation (memoization).
+Combining solutions to subproblems to solve the overall problem efficiently.
+DP is especially useful in optimization problems where the problem can be divided into subproblems that can be solved independently, and the solution can be built up incrementally.
+
+Characteristics of Problems Solvable by DP:
+Optimal Substructure: The solution of the overall problem depends on the solutions of its subproblems.
+Overlapping Subproblems: The problem can be broken down into smaller subproblems that are solved multiple times.
+Basic Steps in Dynamic Programming:
+Define the subproblem: Identify the smaller subproblems that need to be solved.
+Recurrence relation: Write a recurrence relation to combine the solutions of subproblems.
+Memoization or Tabulation: Store the results of subproblems either using memoization (top-down) or tabulation (bottom-up).
+Solve and Combine: Solve the problem using the stored results and combine them to get the final solution.
+🧪 Maximum Subarray Problem with DP
+The maximum subarray problem asks for the contiguous subarray (containing at least one number) that has the largest sum. This can be efficiently solved using Dynamic Programming.
+
+Steps in Applying DP to Maximum Subarray Problem:
+Define the subproblem: Let dp[i] be the maximum sum of the subarray that ends at index i.
+Recurrence relation: For each element arr[i], the maximum sum subarray ending at i is either:
+The element itself (arr[i]), or
+The sum of the subarray ending at i-1 plus arr[i] (if that gives a larger sum). Thus, the recurrence relation is:
+dp[i] = max(arr[i], dp[i-1] + arr[i])
+Initialize base case: Start with dp[0] = arr[0] because the subarray starting at index 0 is just the element itself.
+Iterate and compute: Iterate through the array, updating dp[i] for each index, and track the maximum value of dp[i] to get the final result.
+Kadane’s Algorithm with DP:
+Although Kadane’s algorithm is an optimized approach to solving the maximum subarray problem in linear time, it is essentially a dynamic programming solution.
+
+dp[i]: Tracks the maximum sum subarray ending at index i.
+maxSoFar: Keeps track of the overall maximum sum found.
+In the final implementation, instead of storing all dp[i] values, we just track the current value (maxEndingHere) and the overall maximum sum (maxSoFar), which leads to a more space-efficient solution.
+
+💻 Java Program (Dynamic Programming Approach)
+public class MaxSubArrayDP {
+    public static int maxSubArraySum(int[] arr) {
+        int n = arr.length;
+        // Step 1: Initialize variables
+        int maxSoFar = arr[0];   // The maximum sum so far
+        int maxEndingHere = arr[0];  // The maximum sum of the subarray ending at the current index
+        
+        // Step 2: Loop through the array
+        for (int i = 1; i < n; i++) {
+            maxEndingHere = Math.max(arr[i], maxEndingHere + arr[i]);
+            maxSoFar = Math.max(maxSoFar, maxEndingHere);
+        }
+        
+        // Step 3: Return the maximum sum found
+        return maxSoFar;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        System.out.println("Maximum subarray sum is: " + maxSubArraySum(arr));
+    }
+}
+🧪 Example
+Input:
+arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+Output:
+Maximum subarray sum is: 6
+Explanation:
+The subarray [4, -1, 2, 1] has the largest sum of 6.
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n)
+Space Complexity	O(1)
+Time Complexity: The algorithm makes a single pass over the array, processing each element exactly once. Hence, the time complexity is O(n), where n is the number of elements in the array.
+Space Complexity: The space complexity is O(1) because we are only storing a few variables to track the current and maximum sums, which is a constant amount of space.
+📌 Summary
+Dynamic programming is a powerful technique used for solving optimization problems by breaking them into simpler subproblems. The maximum subarray problem can be efficiently solved using DP by maintaining a record of the maximum subarray sum ending at each index, and updating it iteratively. Kadane’s algorithm is a classic example of DP that solves this problem in linear time with constant space.
+
+This approach guarantees an optimal solution with minimal computational cost, making it ideal for problems involving subarrays, sequences, and optimization.
