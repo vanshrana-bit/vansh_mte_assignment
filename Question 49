@@ -1,0 +1,127 @@
+🔎 49. How to Find the Intersection of Two Linked Lists
+✅ Problem Statement
+Given two singly linked lists, write a program to find the node where they intersect. If the two linked lists do not intersect, return null. Otherwise, return the intersection node.
+
+Example:
+Input:
+
+List 1: 1 -> 2 -> 3 -> 4 -> 5
+
+List 2: 6 -> 3 -> 4 -> 5
+
+Output:
+
+The intersection node is 3.
+
+🧠 Algorithm
+Key Idea:
+The basic idea is to use two pointers, one for each linked list, and traverse them. The pointers will initially start at the head of their respective lists. The key is to ensure that both pointers traverse equal distances, allowing them to meet at the intersection point if one exists.
+Steps:
+Step 1: Get the lengths of both lists.
+Step 2: Move the pointer of the longer list forward by the difference in lengths, so both pointers are at the same distance from the intersection.
+Step 3: Traverse both lists in sync until the two pointers meet at the intersection node or reach the end (null).
+If the pointers reach the end without meeting, there is no intersection.
+
+💻 Java Program
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+public class IntersectionOfLinkedLists {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        // If either list is empty, there can be no intersection
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        // Step 1: Find the lengths of both linked lists
+        int lenA = getLength(headA);
+        int lenB = getLength(headB);
+
+        // Step 2: Move the pointer of the longer list to the same starting point as the shorter list
+        ListNode ptrA = headA;
+        ListNode ptrB = headB;
+        
+        // Align both pointers to be at the same distance from the intersection point
+        if (lenA > lenB) {
+            for (int i = 0; i < lenA - lenB; i++) {
+                ptrA = ptrA.next;
+            }
+        } else if (lenB > lenA) {
+            for (int i = 0; i < lenB - lenA; i++) {
+                ptrB = ptrB.next;
+            }
+        }
+
+        // Step 3: Traverse both lists in sync until a common node is found
+        while (ptrA != null && ptrB != null) {
+            if (ptrA == ptrB) {
+                return ptrA; // Found the intersection
+            }
+            ptrA = ptrA.next;
+            ptrB = ptrB.next;
+        }
+
+        // No intersection found
+        return null;
+    }
+
+    // Helper function to get the length of a linked list
+    private int getLength(ListNode head) {
+        int length = 0;
+        while (head != null) {
+            length++;
+            head = head.next;
+        }
+        return length;
+    }
+
+    public static void main(String[] args) {
+        // Example usage
+        ListNode headA = new ListNode(1);
+        headA.next = new ListNode(2);
+        headA.next.next = new ListNode(3);
+        headA.next.next.next = new ListNode(4);
+        headA.next.next.next.next = new ListNode(5);
+
+        ListNode headB = new ListNode(6);
+        headB.next = headA.next.next; // Intersection at node 3
+
+        IntersectionOfLinkedLists solution = new IntersectionOfLinkedLists();
+        ListNode intersection = solution.getIntersectionNode(headA, headB);
+        System.out.println("Intersection at node: " + (intersection != null ? intersection.val : "null"));
+    }
+}
+🧪 Example
+Input:
+List 1: 1 -> 2 -> 3 -> 4 -> 5
+
+List 2: 6 -> 3 -> 4 -> 5
+
+Output:
+Intersection at node: 3
+Explanation:
+In this example, both lists intersect at node 3. The intersection starts from that node, and both lists share the same subsequent nodes.
+
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(m + n)
+Space Complexity	O(1)
+Explanation:
+Time Complexity:
+
+Finding the lengths of both lists takes O(m + n) time, where m and n are the lengths of the two lists.
+Traversing both lists simultaneously also takes O(m + n) time.
+Therefore, the overall time complexity is O(m + n), where m and n are the lengths of the two linked lists.
+Space Complexity:
+
+We are using a constant amount of extra space for the pointers and the length calculations.
+Therefore, the space complexity is O(1), i.e., constant space.
+📌 Summary
+Finding the intersection of two linked lists involves comparing nodes from both lists to determine where they first meet. By ensuring both pointers are at the same distance from the intersection point, the algorithm efficiently finds the intersection (if it exists) or returns null.
+
+Key Takeaways:
+Efficiency: The algorithm runs in O(m + n) time and uses O(1) space.
+Application: This problem is common in algorithm design where two entities (like network paths, or shared resources) need to be merged, and we need to find where they first converge
