@@ -1,0 +1,51 @@
+3. Solve the problem of finding the equilibrium index in an array. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans.public class EquilibriumIndex {
+    public static int findEquilibriumIndex(int[] arr) {
+        int totalSum = 0;
+        for (int num : arr) {
+            totalSum += num;
+        }
+
+        int leftSum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int rightSum = totalSum - leftSum - arr[i];
+            if (leftSum == rightSum) {
+                return i;
+            }
+            leftSum += arr[i];
+        }
+
+        return -1; // No equilibrium index found
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { -7, 1, 5, 2, -4, 3, 0 };
+        int index = findEquilibriumIndex(arr);
+        if (index != -1) {
+            System.out.println("Equilibrium Index: " + index);
+        } else {
+            System.out.println("No Equilibrium Index Found");
+        }
+    }
+}
+
+ Algorithm (Efficient – O(n) Time):
+Calculate the total sum of the array.
+
+Initialize leftSum = 0.
+
+Traverse the array:
+
+At index i, compute right sum as totalSum - leftSum - arr[i].
+
+If leftSum == rightSum, return i.
+
+Update leftSum += arr[i].
+
+If no index found, return -1.
+
+Time and Space Complexity:
+Operation	Time Complexity	Space Complexity
+Total Sum Calc	O(n)	O(1)
+      Traversal	O(n)	O(1)
+        - Total	O(n)	O(1)
