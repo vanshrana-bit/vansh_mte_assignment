@@ -1,0 +1,49 @@
+40. Solve the problem of finding the element with maximum frequency in an array. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans. import java.util.*;
+
+public class MaxFrequencyElement {
+    public static int findMaxFrequencyElement(int[] nums) {
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        int maxFreq = 0;
+        int maxFreqElement = nums[0];
+
+        for (int num : nums) {
+            int freq = freqMap.getOrDefault(num, 0) + 1;
+            freqMap.put(num, freq);
+
+            // Update max frequency
+            if (freq > maxFreq) {
+                maxFreq = freq;
+                maxFreqElement = num;
+            }
+        }
+
+        return maxFreqElement;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 2, 1, 4, 1, 3, 3, 3};
+        int result = findMaxFrequencyElement(arr);
+        System.out.println("Element with maximum frequency: " + result);
+    }
+}
+
+🔧 Algorithm
+Create an empty HashMap<Integer, Integer>.
+
+Iterate through the array:
+
+For each element, increase its count in the map.
+
+Track:
+
+The max frequency (maxFreq)
+
+The element with that frequency (maxFreqElement)
+
+Return maxFreqElement.
+
+📊 Time and Space Complexity
+Metric	          Complexity
+Time Complexity	  O(n)
+Space Complexity	O(n)
