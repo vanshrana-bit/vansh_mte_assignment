@@ -1,0 +1,50 @@
+2. Write a program to find the sum of elements in a given range [L, R] using a prefix sum array. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans. Algorithm:
+    Input the array and the number of elements.
+    
+    Build a prefix sum array.
+    
+    For any query [L, R], return:
+    
+    prefix[R] - prefix[L-1] if L > 0
+    
+    prefix[R] if L == 0
+
+    import java.util.*;
+
+public class PrefixSumRangeQuery {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.print("Enter elements: ");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int[] prefix = new int[n];
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            prefix[i] = prefix[i - 1] + arr[i];
+        }
+
+        System.out.print("Enter range L and R (0-based index): ");
+        int L = sc.nextInt();
+        int R = sc.nextInt();
+
+        int sum;
+        if (L == 0)
+            sum = prefix[R];
+        else
+            sum = prefix[R] - prefix[L - 1];
+
+        System.out.println("Sum of elements from index " + L + " to " + R + " = " + sum);
+    }
+}
+
+        Operation	Time Complexity	Space Complexity
+        Building Prefix Sum	O(n)	O(n)
+                Query (L, R)	O(1)	-
+                Overall	O(n + q)	O(n)
