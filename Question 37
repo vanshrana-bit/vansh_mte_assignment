@@ -1,0 +1,53 @@
+37. Find all unique combinations of numbers that sum to a target. Write its algorithm, program. Find its time and space complexities. Explain with suitable example.
+Ans. import java.util.*;
+
+public class CombinationSum {
+    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates);  // Optional: helps pruning
+        backtrack(0, candidates, target, new ArrayList<>(), result);
+        return result;
+    }
+
+    private static void backtrack(int index, int[] candidates, int target, List<Integer> current, List<List<Integer>> result) {
+        if (target == 0) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        for (int i = index; i < candidates.length; i++) {
+            if (candidates[i] > target) break; // pruning
+            current.add(candidates[i]);
+            backtrack(i, candidates, target - candidates[i], current, result);  // reuse allowed
+            current.remove(current.size() - 1); // backtrack
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] candidates = {2, 3, 6, 7};
+        int target = 7;
+        List<List<Integer>> combinations = combinationSum(candidates, target);
+        System.out.println("Combinations that sum to " + target + ":");
+        for (List<Integer> combo : combinations) {
+            System.out.println(combo);
+        }
+    }
+}
+
+🔧 Algorithm Steps
+Sort the array (optional but helps for pruning).
+
+Use backtracking:
+
+At each step, choose to include or skip a number.
+
+If the current sum equals the target → add to result.
+
+If sum exceeds the target → return (prune).
+
+Reuse elements by not incrementing the index.
+
+📊 Time and Space Complexity
+Metric	Value
+Time	  O(2^target) (worst case)
+Space	  O(target) recursion stack + result
