@@ -1,0 +1,90 @@
+🔎 46. Write a Program to Find the Longest Palindromic Substring in a Given String
+✅ Problem Statement
+Given a string, the task is to find the longest palindromic substring in the string. A palindrome is a word, phrase, or sequence that reads the same backward as forward. For example, "madam" or "racecar".
+
+The problem is to identify the longest substring in the given string that forms a palindrome.
+
+🧠 Algorithm
+We can solve this problem using expand around center approach, which ensures a time complexity of O(n^2) and space complexity of O(1).
+
+Key Idea:
+Palindromes can be expanded around their center. The center of a palindrome can be a single character (for odd-length palindromes) or two adjacent characters (for even-length palindromes).
+Expand around each character: Treat each character and pair of consecutive characters as the center of a potential palindrome and expand outward while the characters are equal.
+Steps:
+Initialize: We initialize variables to store the starting and ending indices of the longest palindrome.
+Iterate through the string:
+For each character, expand around it to check for palindromes with both an odd and even length.
+Update the longest palindrome if a longer one is found.
+Return the longest palindromic substring.
+Algorithm:
+Initialize: start and end indices to store the start and end of the longest palindrome.
+For each index i in the string:
+Expand around i to find the longest palindrome with an odd length.
+Expand around the pair (i, i+1) to find the longest palindrome with an even length.
+Return the substring from start to end.
+💻 Java Program
+public class LongestPalindromicSubstring {
+    // Helper function to expand around the center
+    private static String expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right);
+    }
+
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+
+        String longest = "";
+        for (int i = 0; i < s.length(); i++) {
+            // Odd length palindromes
+            String oddPalindrome = expandAroundCenter(s, i, i);
+            // Even length palindromes
+            String evenPalindrome = expandAroundCenter(s, i, i + 1);
+
+            // Update longest palindrome
+            if (oddPalindrome.length() > longest.length()) {
+                longest = oddPalindrome;
+            }
+            if (evenPalindrome.length() > longest.length()) {
+                longest = evenPalindrome;
+            }
+        }
+        return longest;
+    }
+
+    public static void main(String[] args) {
+        String input = "babad";
+        String result = longestPalindrome(input);
+        System.out.println("Longest Palindromic Substring: " + result);
+    }
+}
+🧪 Example
+Input:
+s = "babad"
+Output:
+Longest Palindromic Substring: "bab"
+Explanation:
+The longest palindromic substring in the input string "babad" is "bab". Note that "aba" is also a valid solution, but "bab" is returned as it appears first.
+⏱️ Time and Space Complexities
+Metric	Complexity
+Time Complexity	O(n^2)
+Space Complexity	O(1)
+Explanation:
+Time Complexity:
+
+The function iterates over each character of the string (O(n)), and for each character, we expand outwards to check for palindromes (O(n) in the worst case).
+Thus, the time complexity is O(n^2), where n is the length of the string.
+Space Complexity:
+
+The space complexity is O(1) because we are not using any extra space except for a few variables to store indices and the longest palindrome string.
+📌 Summary
+To solve the problem of finding the longest palindromic substring, we can use the expand around center approach. This approach checks for palindromes by expanding from the center of the string and ensures a time complexity of O(n^2) and space complexity of O(1).
+
+Key Takeaways:
+Palindromes can be expanded from their center, and this approach works for both odd and even length palindromes.
+The expand around center method provides a relatively simple and efficient solution to this problem.
+For large strings, more advanced techniques (like dynamic programming or Manacher's algorithm) could offer faster solutions, but the expand around center is a good balance of simplicity and efficiency.
